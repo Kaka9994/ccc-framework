@@ -1,0 +1,16 @@
+import * as pkg_loader from "../../../core/loader/pkg_loader"
+import * as pkg_engine from "../../../engine/pkg_engine"
+
+/** 纹理缓存 */
+export class ImageCache extends pkg_loader.BaseCache {
+    /**
+     * 销毁
+     */
+    public dispose(): void {
+        if (this._data instanceof cc.SpriteFrame) {
+            pkg_engine.Asset().release(this._data.getTexture())
+        }
+        pkg_engine.Asset().release(this._data)
+        super.dispose()
+    }
+}
