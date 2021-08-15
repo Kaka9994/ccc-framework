@@ -86,6 +86,7 @@ export class LoadManager implements pkg_common.IRender, pkg_common.IDispose {
 
     /**
      * 加载
+     * @description 若需要加载ccc构建的资源，资源路径需要加上"ccc/"
      * @param url 加载路径
      * @param progress 进度回调
      * @param complete 完成回调<url, err>
@@ -117,6 +118,7 @@ export class LoadManager implements pkg_common.IRender, pkg_common.IDispose {
 
     /**
      * 加载资源组
+     * @description 若需要加载ccc构建的资源，资源路径需要加上"ccc/"
      * @param group 加载组信息(url-filetype)
      * @param progress 进度回调
      * @param complete 完成回调<url, err>

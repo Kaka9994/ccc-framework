@@ -20,3 +20,6 @@ export enum EnumLoadType {
 	/** bundle类型 */
 	Bundle = "bundle"
 }
+
+/** ccc构建后的资源路径开头 */
+export const CCC_RES = "ccc/"

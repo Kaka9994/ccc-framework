@@ -1,4 +1,5 @@
 import * as pkg_utils from "../../core/utils/pkg_utils"
+import * as pkg_loadmgr from "../../manager/load/pkg_loadmgr"
 
 export { gAsset as Asset }
 
@@ -28,18 +29,6 @@ class CCC245Asset {
             return
         }
 
-        // http资源｜blob资源
-        if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("blob:")) {
-            cc.assetManager.loadAny({ url: url, type: filetype },
-                (finished: number, total: number) => {
-                    progress(finished / total)
-                },
-                (err, res) => {
-                    complete(err ? err.toString() : null, res)
-                })
-            return
-        }
-
         // resources下的资源｜bundle下的资源
         let slashIndex = url.indexOf('/'),
             bundlename = url.substr(0, slashIndex),
@@ -50,11 +39,11 @@ class CCC245Asset {
             // skeleton资源
             if (filetype == "skeleton") {
                 assetType = sp.SkeletonData
-            } 
+            }
             // atlas资源
             else if (filetype == "atlas") {
                 assetType = cc.SpriteAtlas
-            } 
+            }
             // 其他
             else {
                 loadurl = pkg_utils.replaceFinal(loadurl, `.${filetype}`, "")
@@ -75,8 +64,9 @@ class CCC245Asset {
             return
         }
 
-        // 其他(native环境下非ccc打包的资源)
-        if (cc.sys.isNative && jsb.fileUtils.isFileExist(url)) {
+        // 其他(http资源｜blob资源｜native环境下非ccc打包的资源)
+        if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("blob:") ||
+            cc.sys.isNative && jsb.fileUtils.isFileExist(url)) {
             cc.assetManager.loadAny({ url: url, type: filetype },
                 (finished: number, total: number) => {
                     progress(finished / total)
@@ -86,7 +76,7 @@ class CCC245Asset {
                 })
         }
     }
-    
+
     /**
      * 缓存释放
      * @param asset 资源

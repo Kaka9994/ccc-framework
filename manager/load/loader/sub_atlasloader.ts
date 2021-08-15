@@ -2,6 +2,7 @@ import * as pkg_base from "../../../core/base/pkg_base"
 import * as pkg_loader from "../../../core/loader/pkg_loader"
 import * as pkg_utils from "../../../core/utils/pkg_utils"
 import * as pkg_engine from "../../../engine/pkg_engine"
+import * as sub_loadtype from "../sub_loadtype"
 
 /** 图集加载器 */
 export class AtlasLoader implements pkg_loader.ILoader {
@@ -11,11 +12,8 @@ export class AtlasLoader implements pkg_loader.ILoader {
      */
     public load(vo: pkg_loader.LoadVO): void {
         // ccc资源
-        let slashIndex = vo.url.indexOf('/'),
-            bundlename = vo.url.substr(0, slashIndex),
-            bundle = cc.assetManager.getBundle(bundlename)
-        if (bundle != null) {
-            let url = vo.url
+        if (vo.url.startsWith(sub_loadtype.CCC_RES)) {
+            let url = vo.url.replace(sub_loadtype.CCC_RES, '')
             pkg_engine.Asset().load(url, vo.filetype,
                 (error, asset) => {
                     vo.sendComplete(url, error, asset)

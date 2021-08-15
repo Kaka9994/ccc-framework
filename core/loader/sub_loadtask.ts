@@ -267,9 +267,15 @@ export class LoadTask implements pkg_common.IDispose {
      * @return vo
      */
     public createVO(url: string, filetype: string): sub_loadvo.LoadVO {
+        // 过滤无效参数
+        if (pkg_utils.isEmpty(url)) {
+            pkg_base.logger.error("createVO:过滤无效参数")
+            return null
+        }
+
         // 过滤无效状态
         if (this._status != sub_loadenum.EnumLoadTaskStatus.READY) {
-            pkg_base.logger.error("addVO:过滤无效状态")
+            pkg_base.logger.error("createVO:过滤无效状态")
             return null
         }
 
