@@ -1,6 +1,6 @@
 import * as pkg_base from "../../core/base/pkg_base"
-import * as pkg_common from "../../core/common/pkg_common"
 import * as pkg_loader from "../../core/loader/pkg_loader"
+import * as pkg_imgr from "../interface/pkg_imgr"
 import * as sub_loadtype from "./sub_loadtype"
 import { AtlasLoader } from "./loader/sub_atlasloader"
 import { AtlasCache } from "./cache/sub_atlascache"
@@ -20,7 +20,7 @@ import { TextLoader } from "./loader/sub_textloader"
 import { TextCache } from "./cache/sub_textcache"
 
 /** 加载管理器 */
-export class LoadManager implements pkg_common.IRender, pkg_common.IDispose {
+export class LoadManager implements pkg_imgr.IMgr {
     /** 单例 */
     private static _me: LoadManager = null
     /** 资源加载器 */

@@ -2,12 +2,13 @@ import * as pkg_base from "../../core/base/pkg_base"
 import * as pkg_common from "../../core/common/pkg_common"
 import * as pkg_utils from "../../core/utils/pkg_utils"
 import * as pkg_engine from "../../engine/pkg_engine"
+import * as pkg_imgr from "../interface/pkg_imgr"
 import * as pkg_loadmgr from "../load/pkg_loadmgr"
 import * as sub_soundstate from "./sub_soundstate"
 import * as sub_soundvo from "./sub_soundvo"
 
 /** 声音管理器 */
-export class SoundManager implements pkg_common.IRender, pkg_common.IDispose {
+export class SoundManager implements pkg_imgr.IMgr {
     /** 单例 */
     private static _me: SoundManager = null
     /** vo字典 <id, soundvo> */
