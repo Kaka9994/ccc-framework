@@ -493,7 +493,7 @@ export class AssetLoader implements pkg_common.IRender, pkg_common.IDispose {
     private _doLoadVO(vo: sub_loadvo.LoadVO): void {
         // 获取加载类型
         let type = vo.filetype
-        if (pkg_utils.isEmpty(type)) {
+        if (pkg_utils.isEmpty(type) || type == "None") {
             let ext = pkg_utils.getFileExt(vo.url)
             type = this._extDic.getValue(ext)
             type = type == null ? "None" : type
@@ -603,9 +603,10 @@ export class AssetLoader implements pkg_common.IRender, pkg_common.IDispose {
             // 缓存资源
             if (pkg_utils.isEmpty(err) && !cacheOK) {
                 // 获取加载类型
-                if (filetype == "") {
-                    let ext = pkg_utils.getFileExt(url)
+                if (pkg_utils.isEmpty(filetype) || filetype == "None") {
+                    let ext = pkg_utils.getFileExt(vo.url)
                     filetype = this._extDic.getValue(ext)
+                    filetype = filetype == null ? "None" : filetype
                 }
 
                 this._assetCache.setRes(filetype, url, res)

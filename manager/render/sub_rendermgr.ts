@@ -12,11 +12,11 @@ export class RenderManager implements pkg_common.IDispose {
 
     /** 
      * 渲染
-     * @param t 当前时间
-     * @param dt 间隔时间
+     * @param t 当前帧数
+     * @param dt 间隔时间ms
      * @param type 渲染类型
      */
-    public render(t: number, dt: number, type: number = sub_rendertype.RenderType.DEF): void {
+    public render(t: number, dt: number, type: sub_rendertype.RenderType = sub_rendertype.RenderType.DEF): void {
         let mgrArr = this._mgrDic.getValue(type)
         if (mgrArr != null && mgrArr.length > 0) {
             for (let i = 0, len = mgrArr.length; i < len; i++) {
@@ -50,10 +50,10 @@ export class RenderManager implements pkg_common.IDispose {
 
     /**
      * 添加需要渲染的对象
-     * @param obj 对象
+     * @param obj 对象(需要包含render方法或继承IRender接口,入参(t:当前帧数, dt:间隔时间ms))
      * @param type 渲染类型
      */
-    public addToRender(obj: any, type: number = sub_rendertype.RenderType.DEF): void {
+    public addToRender(obj: any, type: sub_rendertype.RenderType = sub_rendertype.RenderType.DEF): void {
         // 过滤无效参数
         if (!("render" in obj)) {
             pkg_base.logger.error("addToRender:过滤无效参数")
@@ -76,7 +76,7 @@ export class RenderManager implements pkg_common.IDispose {
      * @param obj 对象
      * @param type 渲染类型
      */
-    public remveToRender(obj: any, type: number = sub_rendertype.RenderType.DEF): void {
+    public remveToRender(obj: any, type: sub_rendertype.RenderType = sub_rendertype.RenderType.DEF): void {
         // 过滤无效参数
         if (!("render" in obj)) {
             pkg_base.logger.error("addToRender:过滤无效参数")

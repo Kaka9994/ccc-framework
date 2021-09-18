@@ -454,7 +454,7 @@ class QueueItem {
     constructor(id: number, x: XMLHttpRequest, cb: (data: object, err: string) => void) {
         this.id = id
         this.xhr = x
-        this.tick = Date.now() + HttpTimeout * 1000
+        this.tick = Date.now() + HttpTimeout
         this.call = cb
     }
 }

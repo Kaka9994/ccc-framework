@@ -12,6 +12,8 @@ import { BundleLoader } from "./loader/sub_bundleloader"
 import { BundleCache } from "./cache/sub_bundlecache"
 import { ImageCache } from "./cache/sub_imagecache"
 import { ImageLoader } from "./loader/sub_imageloader"
+import { MaterialLoader } from "./loader/sub_materialloader"
+import { MaterialCache } from "./cache/sub_materialcache"
 import { PrefabLoader } from "./loader/sub_prefabloader"
 import { PrefabCache } from "./cache/sub_prefabcache"
 import { Skeletonloader } from "./loader/sub_skeletonloader"
@@ -59,6 +61,7 @@ export class LoadManager implements pkg_imgr.IMgr {
         this._registerExt(["mp3", "ogg", "wav", "m4a"], sub_loadtype.EnumLoadType.Audio)
         this._registerExt(["binary"], sub_loadtype.EnumLoadType.Buffer)
         this._registerExt(["png", "jpg"], sub_loadtype.EnumLoadType.Image)
+        this._registerExt(["mtl"], sub_loadtype.EnumLoadType.Material)
         this._registerExt(["txt", "xml", "json"], sub_loadtype.EnumLoadType.Text)
 
         // 注册纹理加载器\缓存类型
@@ -78,6 +81,8 @@ export class LoadManager implements pkg_imgr.IMgr {
         this._assetloader.registerCache(sub_loadtype.EnumLoadType.Skeleton, SkeletonCache, 60 * 10 * 1000)
         this._assetloader.registerLoader(sub_loadtype.EnumLoadType.Text, new TextLoader())
         this._assetloader.registerCache(sub_loadtype.EnumLoadType.Text, TextCache, 60 * 10 * 1000)
+        this._assetloader.registerLoader(sub_loadtype.EnumLoadType.Material, new MaterialLoader())
+        this._assetloader.registerCache(sub_loadtype.EnumLoadType.Material, MaterialCache, 60 * 10 * 1000)
 
         // 默认加载器
         this._assetloader.registerLoader(sub_loadtype.EnumLoadType.None, new BinaryLoader())
@@ -148,7 +153,7 @@ export class LoadManager implements pkg_imgr.IMgr {
     }
 
     /**
-     * 获取缓存
+     * 获取缓存(需要自己手动调用缓存引用计数addRef，否则会被自动释放，或者使用自动缓存管理AutoCache)
      * @param url 资源路径
      * @return 缓存
      */

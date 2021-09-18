@@ -12,8 +12,9 @@ export class Skeletonloader implements pkg_loader.ILoader {
     public load(vo: pkg_loader.LoadVO): void {
         // ccc资源
         if (vo.url.startsWith(sub_loadtype.CCC_RES)) {
-            let url = vo.url.replace(sub_loadtype.CCC_RES, '')
-            pkg_engine.Asset().load(url, vo.filetype,
+            let url = vo.url,
+                loadUrl = vo.url.replace(sub_loadtype.CCC_RES, '')
+            pkg_engine.Asset().load(loadUrl, vo.filetype,
                 (error, asset) => {
                     vo.sendComplete(url, error, asset)
                 },

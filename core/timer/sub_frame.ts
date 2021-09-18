@@ -8,7 +8,7 @@ const Frame_Name = "KFrame"
  * @return 帧执行对象
  */
 export function createFrame(onframe: pkg_common.Handler): KFrame {
-    return pkg_common.store.getObj<KFrame>(Frame_Name, onframe) 
+    return pkg_common.store.getObj<KFrame>(Frame_Name, onframe)
 }
 
 /** 
@@ -20,7 +20,7 @@ export function recoverFrame(frame: KFrame): void {
 }
 
 /** 帧执行对象类(帧数与浏览器的刷新频率相关，跟ccc的帧数无关) */
-export class KFrame implements pkg_common.IDispose  {
+export class KFrame implements pkg_common.IDispose {
     /** 每帧回调 */
     public onFrame: pkg_common.Handler = null;
     /** 是否正在运行 */
@@ -29,6 +29,8 @@ export class KFrame implements pkg_common.IDispose  {
     private _isRender: boolean = false
     /** 当前帧编号 */
     private _frameID: number = 0
+    /** 上一帧时间 */
+    private _lastTime: number = 0
 
     /** 构造 */
     constructor() {
@@ -43,7 +45,7 @@ export class KFrame implements pkg_common.IDispose  {
         // 非浏览器则用setTimeout代替
         if (!window.requestAnimationFrame) {
             window.requestAnimationFrame = <any>function (callback) {
-                return setTimeout(() => callback(17), 17)
+                return setTimeout(() => callback(), 17)
             }
         }
         if (!window.cancelAnimationFrame) {
@@ -61,6 +63,7 @@ export class KFrame implements pkg_common.IDispose  {
         // 设置标识
         this._isRunning = true
         this._isRender = false
+        this._lastTime = Date.now()
 
         // 执行渲染
         this.render()
@@ -76,6 +79,7 @@ export class KFrame implements pkg_common.IDispose  {
         // 设置标识
         this._isRunning = false
         this._isRender = false
+        this._lastTime = 0
 
         // 取消帧执行
         if (this._frameID != 0) {
@@ -90,6 +94,7 @@ export class KFrame implements pkg_common.IDispose  {
         }
         this._isRunning = false
         this._isRender = false
+        this._lastTime = 0
         this._frameID = 0
         this.onFrame.recover()
         this.onFrame = null
@@ -102,9 +107,13 @@ export class KFrame implements pkg_common.IDispose  {
             return
         }
 
+        let curTime = Date.now(),
+            dt = curTime - this._lastTime
+        this._lastTime = curTime
+
         // 调用回调
         if (this._isRender) {
-            this.onFrame.run()
+            this.onFrame.runWith(dt)
         }
 
         // 设置标识

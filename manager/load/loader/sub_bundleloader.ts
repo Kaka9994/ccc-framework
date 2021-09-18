@@ -10,9 +10,10 @@ export class BundleLoader implements pkg_loader.ILoader {
      */
     public load(vo: pkg_loader.LoadVO): void {
         let cccRES = sub_loadtype.CCC_RES,
-            url = vo.url.startsWith(cccRES) ? vo.url.replace(cccRES, '') : vo.url,
+            url = vo.url,
+            loadUrl = vo.url.startsWith(cccRES) ? vo.url.replace(cccRES, '') : vo.url,
             filetype = vo.filetype
-        pkg_engine.Asset().load(url, filetype,
+        pkg_engine.Asset().load(loadUrl, filetype,
             (error: string, asset: any) => {
                 vo.sendComplete(url, error, asset)
             },

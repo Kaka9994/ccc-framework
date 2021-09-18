@@ -18,7 +18,9 @@ export enum EnumLoadType {
 	/** 图集类型 */
 	Atlas = "atlas",
 	/** bundle类型 */
-	Bundle = "bundle"
+	Bundle = "bundle",
+	/** 材质 */
+	Material = "material"
 }
 
 /** ccc构建后的资源路径开头 */

@@ -35,7 +35,7 @@ export class KTimer implements pkg_common.IDispose {
     private _isEnd: boolean = false
     /** 重试次数 */
     private _repeatCount: number = 0
-    /** 计时时长 */
+    /** 计时时长ms */
     private _time: number = 0
     /** 开始计时时间 */
     private _startTime: number = 0

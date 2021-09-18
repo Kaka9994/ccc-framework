@@ -11,9 +11,10 @@ export class AudioLoader implements pkg_loader.ILoader {
      */
     public load(vo: pkg_loader.LoadVO): void {
         let cccRES = sub_loadtype.CCC_RES,
-            url = vo.url.startsWith(cccRES) ? vo.url.replace(cccRES, '') : vo.url,
+            url = vo.url,
+            loadUrl = vo.url.startsWith(cccRES) ? vo.url.replace(cccRES, '') : vo.url,
             filetype = pkg_utils.getFileExt(vo.url)
-        pkg_engine.Asset().load(url, filetype != null ? filetype : "",
+        pkg_engine.Asset().load(loadUrl, filetype != null ? filetype : "",
             (error: string, asset: any) => {
                 if (error == null) {
                     // 尝试转换数据

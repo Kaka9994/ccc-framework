@@ -215,7 +215,7 @@ class ObjectStore implements IObjectStore {
     /**
      * 创建对象池
      * @param poolname 对象池名
-     * @param clz 对象类｜对象实例(注意：传入对象实例创建的对象只包含原型链上的属性)
+     * @param clz 对象类｜对象实例(注意：不重写new函数，则传入对象实例创建的对象只包含原型链上的属性)
      */
     public createPool<T>(poolname: string, clz: any): ObjectPool<T> {
         // 对象池已经注册
